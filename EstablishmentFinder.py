@@ -16,7 +16,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def str2bool(v):
-	return v.lower() in ("true", "True")
+	return v.lower() in ("true", "True", "y", "Y")
 def unescapeurl(v):
 	return v.replace(" ", "%20")
 def textlayout(text, color):
@@ -71,16 +71,24 @@ if(index == 0):
 	print textlayout("Sorry, I could not find anything for " + typeOfEstablishment + " in " + locationToSearch, bcolors.BOLD)
 	quit()
 
-establishmentIndex = raw_input( textlayout("Type the index (0 to " + str((index-1)) + ") of the establishment you want to know more about\n", bcolors.BOLD))
+showmoreinfo = True;
+while (showmoreinfo):
+	establishmentIndex = raw_input( textlayout("Type the index (0 to " + str((index-1)) + ") of the establishment you want to know more about\n", bcolors.BOLD))
 
-while not establishmentIndex.isdigit() or (int(establishmentIndex) >= index) or (int(establishmentIndex) < 0):
-	establishmentIndex = raw_input( textlayout("Sorry, that's not a valid input. Type the index (0 to " + str((index-1)) + ") of the establishment you want to know more about\n", bcolors.BOLD))
+	while not establishmentIndex.isdigit() or (int(establishmentIndex) >= index) or (int(establishmentIndex) < 0):
+		establishmentIndex = raw_input( textlayout("Sorry, that's not a valid input. Type the index (0 to " + str((index-1)) + ") of the establishment you want to know more about\n", bcolors.BOLD))
 
-print textlayout("Showing more information about " + root[int(establishmentIndex) + 1].find('name').text + ":", bcolors.BOLD)
-if root[int(establishmentIndex) + 1].find('formatted_address') is not None: print textlayout("	Address: " + root[int(establishmentIndex) + 1].find('formatted_address').text, bcolors.BOLD)
-if root[int(establishmentIndex) + 1].find('rating') is not None: print textlayout("	Rating in stars (1 to 5): " + root[int(establishmentIndex) + 1].find('rating').text, bcolors.BOLD)
-if root[int(establishmentIndex) + 1].find('opening_hours') is not None: print textlayout("	It is open now!", bcolors.FAIL + bcolors.BOLD) if str2bool(root[int(establishmentIndex) + 1].find('opening_hours').text) else textlayout("	It is closed now!", bcolors.FAIL + bcolors.BOLD)
+	print textlayout("Showing more information about " + bcolors.UNDERLINE + root[int(establishmentIndex) + 1].find('name').text, bcolors.BOLD)
+	if root[int(establishmentIndex) + 1].find('formatted_address') is not None: print textlayout("	Address: " + root[int(establishmentIndex) + 1].find('formatted_address').text, bcolors.BOLD)
+	if root[int(establishmentIndex) + 1].find('rating') is not None: print textlayout("	Rating in stars (1 to 5): " + root[int(establishmentIndex) + 1].find('rating').text, bcolors.BOLD)
+	if root[int(establishmentIndex) + 1].find('opening_hours') is not None: print textlayout("	It is open now!", bcolors.FAIL + bcolors.BOLD) if str2bool(root[int(establishmentIndex) + 1].find('opening_hours').text) else textlayout("	It is closed now!", bcolors.FAIL + bcolors.BOLD)
 
-#AIzaSyCavQteomjaWkbzKykWWbKp5EmZflJaiKE
-#IzaSyDM-0kmiEgDVoR--btxjgTfymFyYRvYfhQ
-#https://maps.googleapis.com/maps/api/place/textsearch/xml?query=restaurants+in+aclimacao&key=AIzaSyCavQteomjaWkbzKykWWbKp5EmZflJaiKE
+	userinput = raw_input( textlayout("Do you want to get information from others establishments? (y/n)\n", bcolors.BOLD) );
+	while not userinput == "n" and not userinput == "y":
+		userinput = raw_input( textlayout("Invalid input. Do you want to get information from others establishments? (y/n)\n", bcolors.BOLD) );
+	showmoreinfo = str2bool(userinput);
+
+quit()
+
+
+
