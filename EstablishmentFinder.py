@@ -28,7 +28,7 @@ def mainisfrozen():
 def getmaindir():
    if mainisfrozen():
        return os.path.dirname(sys.executable)
-   return os.path.dirname(sys.argv[0])
+   return os.path.dirname(os.path.abspath(__file__))
 
 filepath = getmaindir()+"/config.txt";
 if not os.path.exists(filepath):
